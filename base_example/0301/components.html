@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<!--
+本节学习：组件化
+
+组件化的好处：
+增加了代码的可读性，更重要的是增加了代码的可重用性。
+
+本案例，完成两个组件化工作：
+1：对列表进行组件封装，注意在组件模板属性参数的v-bind:todos="todos"传递
+2：对表单进行了组装
+
+注意在 JavaScript 中对象和数组是引用类型，指向同一个内存空间，如果 prop 是一个对象或数组，在子组件内部改变它会影响父组件的状态。
+-->
+<head>
+<meta charset="UTF-8">
+<title>Vue js</title>
+<link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
+<style>
+ .completed{
+   color:#5c5b5c;
+   text-decoration: line-through;
+ }
+</style>
+</head>
+
+
+<body>
+  <header class="navbar navbar-fixed-top navbar-inverse">
+    <div class="container">
+    <h1>Vue开发</h1>
+    </div>
+  </header>
+
+<div class="container" id="app" style="margin:100px;">
+  <div class="row">
+    <div class="col-md-offset-2 col-md-8">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          welcome to Vue.js
+        </div>
+        <div class="panel-body">
+          <!--  模板不再简单和清晰，所以，这里引入computed,增加代码可读性
+          <h1>My todos {{todos.length}}</h1>
+          -->
+          <h1>My todos {{todosCount}}</h1>
+
+          <!-- 这里使用组件化封装ul列表,这里需要给组件绑定一个数据属性，v-bind: 可以简写为一个冒号：-->
+          <todo-items v-bind:todos="todos"></todo-items>
+          <todo-form :todos="todos"></todo-form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+<!-- 列表组件 -->
+<script type="text/x-template" id="todo-items-template">
+  <ul class="list-group">
+    <li class="list-group-item"
+    v-bind:class="{ 'completed' : todo.completed }"
+    v-for="(todo,index) in todos">
+        {{ todo.id }} {{ todo.title }}
+        <button class="btn btn-warning btn-xs pull-right"
+        v-bind:class="[todo.completed ? 'btn-danger' : 'btn-success']"
+         v-on:click="toggleCompletion(todo)"
+        >
+        {{ todo.completed ? 'undo' : 'complete' }}
+        </button>
+
+        <button class="btn btn-danger btn-xs pull-right"
+         v-on:click="deleteTodo(index)"
+        >删除</button>
+    </li>
+  </ul>
+</script>
+
+<!-- 表单组件 -->
+<script type="text/x-template" id="add-form-template">
+  <form v-on:submit.prevent="addTodo(newTodo)">
+    <div class="form-group">
+        <input type="text" v-model="newTodo.title" class="form-control" placeholder="Add a list" />
+    </div>
+    <div class="form-group">
+        <button class="btn btn-success">Add to do</button>
+    </div>
+  </form>
+</script>
+
+<!-- 注意：此处的引入文件需要放在body的后边，需要DOM加载完后，才能获取到#app-->
+<script src="../assets/js/vue.js"></script>
+<script>
+
+// 组件化-列表
+Vue.component('todo-items',{
+  template:'#todo-items-template',
+  props:['todos'],   // 定义一个属性
+  methods:{
+    deleteTodo(index){
+      this.todos.splice(index,1)
+    },
+    toggleCompletion(todo){
+      todo.completed = !todo.completed;
+    }
+  }
+})
+
+// 组件化-表单
+Vue.component('todo-form',{
+  template:'#add-form-template',
+  props:['todos'],
+
+  // 子组件数据属性
+  data(){
+    return{
+      newTodo:{id:null,title:"",completed:false}
+    }
+  },
+  methods:{
+    addTodo(newTodo){
+      this.todos.push(newTodo)
+      this.newTodo = {id:null,title:"",completed:false}
+    }
+  }
+})
+
+  new Vue({
+    el:'#app',
+    data:{
+      message:"Hello,Vue",
+      todos:[
+        {id:1,title:'Jack Chan',completed:true},
+        {id:2,title:'Jet Lee',completed:false}
+      ],
+    },
+    computed:{
+      todosCount(){
+        return this.todos.length;
+      }
+
+    }
+  })
+
+</script>
+</html>
