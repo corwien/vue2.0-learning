@@ -1,4 +1,4 @@
-# Vuejs learning
+# vuejs-2.0-cli
 
 > A Vue.js project
 
