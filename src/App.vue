@@ -21,6 +21,13 @@ export default {
       ]
     }
   },
+
+  // 异步请求
+  mounted(){
+    this.axios.get('http://baidu.com').then(response =>{
+      console.log(response.data)
+    })
+  },
   computed:{
     todosCount(){
       return this.todos.length;

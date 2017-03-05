@@ -3,6 +3,12 @@
 import Vue from 'vue'
 import App from './App'
 
+// 引入axios请求API
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+Vue.use(VueAxios, axios)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
