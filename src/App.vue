@@ -1,17 +1,33 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-    <hello></hello>
+    <todos :todos="todos"></todos>
+    <todo-form :todos="todos"></todo-form>
   </div>
 </template>
 
 <script>
-import Hello from './components/Hello'
+import Hello from './components/Hello';
+import Todos from './components/Todos';
+import TodoForm from './components/TodoForm';
 
 export default {
   name: 'app',
+  data(){
+    return {
+      todos:[
+        {id:1,title:'Jack Chan',completed:true},
+        {id:2,title:'Jet Lee',completed:false}
+      ]
+    }
+  },
+  computed:{
+    todosCount(){
+      return this.todos.length;
+    }
+  },
   components: {
-    Hello
+    Hello,Todos,TodoForm
   }
 }
 </script>
