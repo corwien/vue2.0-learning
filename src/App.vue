@@ -1,15 +1,19 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
+    <!--
     <todos :todos="todos"></todos>
-    <todo-form :todos="todos"></todo-form>
+  -->
+
+  <!-- 路由出口 -->
+  <!-- 路由匹配到的组件将渲染在这里 -->
+  <router-view :todos="todos"></router-view>
   </div>
 </template>
 
 <script>
 import Hello from './components/Hello';
 import Todos from './components/Todos';
-import TodoForm from './components/TodoForm';
 
 export default {
   name: 'app',
@@ -24,9 +28,10 @@ export default {
 
   // 异步请求
   mounted(){
+    /*
     this.axios.get('http://baidu.com').then(response =>{
       console.log(response.data)
-    })
+    })*/
   },
   computed:{
     todosCount(){
@@ -34,7 +39,7 @@ export default {
     }
   },
   components: {
-    Hello,Todos,TodoForm
+    Hello
   }
 }
 </script>
