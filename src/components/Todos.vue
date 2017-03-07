@@ -1,7 +1,7 @@
 <template>
   <div id="todos">
 
-  <ul class="list-group" v-if="todos.length > 0">
+  <ul class="list-group">
     <li class="list-group-item"
     v-bind:class="{ 'completed' : todo.completed }"
     v-for="(todo,index) in todos">
@@ -15,12 +15,12 @@
         </button>
 
         <button class="btn btn-danger btn-xs pull-right margin-right-10"
-         v-on:click="deleteTodo(index)"
+         v-on:click="deleteTodo(todo, index)"
         >删除</button>
     </li>
   </ul>
 
-  <todo-form :todos="todos"></todo-form>
+  <todo-form></todo-form>
 
 </div>
 </template>
@@ -41,15 +41,21 @@ import TodoForm from './TodoForm';
 
   export default{
     name:'todos',
-    props:['todos'],   // 定义一个属性
+  //  props:['todos'],   // 定义一个属性
+  computed: {
+   todos() {
+     return this.$store.state.todos
+   }
+ },
     methods:{
-      deleteTodo(index){
-        this.todos.splice(index,1)
+      deleteTodo(todo, index){
+        this.$store.dispatch('removeTodo', todo, index)
       },
       toggleCompletion(todo){
-        todo.completed = !todo.completed;
+        this.$store.dispatch('completeTodo', todo)
       }
     },
+
     components:{
         TodoForm
       }

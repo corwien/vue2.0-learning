@@ -22,18 +22,26 @@
 
 <script>
   export default{
-      props:['todos'],
+    //  props:['todos'],
 
      // 子组件数据属性
+     /*   Vuex 写法，将 newTodo 放入到 state 中
      data(){
        return{
          newTodo:{id:null,title:"",completed:false}
        }
-     },
+     },*/
+     computed: {
+      newTodo() {
+        return this.$store.state.newTodo
+      }
+    },
      methods:{
        addTodo(newTodo){
-         this.todos.push(newTodo)
-         this.newTodo = {id:null,title:"",completed:false}
+         // this.todos.push(newTodo)
+         // this.newTodo = {id:null,title:"",completed:false}
+           this.$store.dispatch('saveTodo', newTodo)
+
        }
      }
   }

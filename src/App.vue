@@ -7,7 +7,7 @@
 
   <!-- 路由出口 -->
   <!-- 路由匹配到的组件将渲染在这里 -->
-  <router-view :todos="todos"></router-view>
+  <router-view></router-view>
   </div>
 </template>
 
@@ -17,6 +17,7 @@ import Todos from './components/Todos';
 
 export default {
   name: 'app',
+  /*
   data(){
     return {
       todos:[
@@ -25,6 +26,7 @@ export default {
       ]
     }
   },
+  */
 
   // 异步请求
   mounted(){
@@ -32,10 +34,12 @@ export default {
     this.axios.get('http://baidu.com').then(response =>{
       console.log(response.data)
     })*/
+
+    this.$store.dispatch('getTodos')
   },
   computed:{
     todosCount(){
-      return this.todos.length;
+      return this.$store.todos.length;
     }
   },
   components: {
